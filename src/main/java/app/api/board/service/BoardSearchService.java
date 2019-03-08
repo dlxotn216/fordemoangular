@@ -4,6 +4,7 @@ import app.api.board.domain.repository.BoardRepository;
 import app.api.board.interfaces.dto.BoardDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,7 +25,7 @@ public class BoardSearchService {
     }
 
     public Page<BoardDto.BoardsSearchResponse> searchBoards(Pageable pageable) {
-        return this.boardRepository.findAll(pageable)
+        return this.boardRepository.findAllWithJoinUser(pageable)
                 .map(BoardDto::asBoardsSearchResponse);
     }
 

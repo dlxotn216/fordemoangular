@@ -3,6 +3,9 @@ package app.api.board.interfaces.controller;
 import app.api.base.dto.ApiResponse;
 import app.api.board.service.BoardSearchService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +31,10 @@ public class BoardSearchController {
     }
 
     @GetMapping("boards")
-    public ResponseEntity<ApiResponse> searchBoards(Pageable pageable) {
+    public ResponseEntity<ApiResponse> searchBoards(@PageableDefault(page = 0, size = 20)
+                                                        @SortDefault.SortDefaults({
+                                                                @SortDefault(sort = "createdDateTime", direction = Sort.Direction.DESC)
+                                                        })Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.fromSuccessResult(this.boardSearchService.searchBoards(pageable)));
     }

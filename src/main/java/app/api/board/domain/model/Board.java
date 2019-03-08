@@ -36,7 +36,7 @@ public class Board {
     @Column(nullable = false)
     private String content;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "USER_KEY")
     private User createdBy;
 
