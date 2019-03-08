@@ -37,6 +37,7 @@ public final class BoardDto {
                                         board.getContent(),
                                         board.getCreatedBy().getName(), board.getCreatedDateTime());
     }
+    
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -46,5 +47,14 @@ public final class BoardDto {
         private String content;
         private String createdBy;
         private LocalDateTime createdDateTime;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BoardUpdateRequest {
+        private Long key;
+        private String title;
+        private String content;
     }
 }

@@ -42,6 +42,5 @@ public class Board {
 
     @Column(nullable = false)
     private LocalDateTime createdDateTime;
-    
-    
+        
 }
