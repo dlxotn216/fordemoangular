@@ -48,7 +48,15 @@ public final class BoardDto {
         private String createdBy;
         private LocalDateTime createdDateTime;
     }
-
+    
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BoardAddRequest {
+        private String title;
+        private String content;
+    }
+    
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
