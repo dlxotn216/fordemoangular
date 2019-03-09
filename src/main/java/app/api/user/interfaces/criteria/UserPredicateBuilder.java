@@ -24,7 +24,7 @@ public class UserPredicateBuilder {
         return this;
     }
 
-    public BooleanExpression build() {
+    public BooleanExpression build(String condition) {
         if (params.size() == 0) {
             return null;
         }
@@ -34,7 +34,7 @@ public class UserPredicateBuilder {
 
         BooleanExpression result = Expressions.asBoolean(true).isTrue();
         for (BooleanExpression predicate : predicates) {
-            result = result.and(predicate);
+            result = condition.equalsIgnoreCase("and") ? result.and(predicate) : result.or(predicate);
         }
         return result;
     }
