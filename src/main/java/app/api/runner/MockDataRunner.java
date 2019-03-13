@@ -2,6 +2,9 @@ package app.api.runner;
 
 import app.api.board.domain.model.Board;
 import app.api.board.domain.repository.BoardRepository;
+import app.api.label.domain.model.Label;
+import app.api.label.domain.repository.LabelRepository;
+import app.api.locale.domain.model.LocaleType;
 import app.api.user.domain.model.User;
 import app.api.user.domain.repository.UserRepository;
 import org.springframework.boot.ApplicationArguments;
@@ -26,10 +29,12 @@ import java.util.stream.Collectors;
 public class MockDataRunner implements ApplicationRunner {
     private UserRepository userRepository;
     private BoardRepository boardRepository;
+    private LabelRepository labelRepository;
 
-    public MockDataRunner(UserRepository userRepository, BoardRepository boardRepository) {
+    public MockDataRunner(UserRepository userRepository, BoardRepository boardRepository, LabelRepository labelRepository) {
         this.userRepository = userRepository;
         this.boardRepository = boardRepository;
+        this.labelRepository = labelRepository;
     }
 
     @Transactional
@@ -50,14 +55,28 @@ public class MockDataRunner implements ApplicationRunner {
                 User.builder().id("kim").name("김").email("kim@naver.com").age(71).phone("010-9457-2713").build(),
                 User.builder().id("lee").name("이").email("lee@naver.com").age(14).phone("010-9325-2313").build()
         ));
-        
+
         this.boardRepository.saveAll(
                 this.userRepository.findAll()
                         .stream()
-                        .map(user -> Board.builder().title("Test "+user.getKey()).content("test article writed by "+user.getId())
+                        .map(user -> Board.builder().title("Test " + user.getKey()).content("test article writed by " + user.getId())
                                 .createdBy(user).createdDateTime(LocalDateTime.now()).build())
                         .collect(Collectors.toList())
         );
-        
+
+        this.labelRepository.saveAll(Arrays.asList(
+                Label.builder().labelId("userId").localeType(LocaleType.KOREAN).value("사용자 아이디").build(),
+                Label.builder().labelId("password").localeType(LocaleType.KOREAN).value("비밀번호").build(),
+                Label.builder().labelId("email").localeType(LocaleType.KOREAN).value("이메일").build(),
+
+                Label.builder().labelId("userId").localeType(LocaleType.ENGLISH).value("ID").build(),
+                Label.builder().labelId("password").localeType(LocaleType.ENGLISH).value("Password").build(),
+                Label.builder().labelId("email").localeType(LocaleType.ENGLISH).value("Email").build(),
+
+                Label.builder().labelId("userId").localeType(LocaleType.JAPANESE).value("ユーザ名").build(),
+                Label.builder().labelId("password").localeType(LocaleType.JAPANESE).value("パスワード").build(),
+                Label.builder().labelId("email").localeType(LocaleType.JAPANESE).value("メール").build()
+        ));
+
     }
 }
