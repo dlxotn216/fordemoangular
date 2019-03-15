@@ -32,8 +32,16 @@ public class UserPredicateBuilder {
         List<BooleanExpression> predicates = params.stream().map(UserPredicate::getPredicate)
                 .filter(Objects::nonNull).collect(Collectors.toList());
 
-        BooleanExpression result = Expressions.asBoolean(true).isTrue();
+        BooleanExpression result = null;
         for (BooleanExpression predicate : predicates) {
+            if (result == null) {
+                if (condition.equalsIgnoreCase("and")) {
+                    result = Expressions.asBoolean(true).isTrue();
+                } else {
+                    result = Expressions.asBoolean(false).isTrue();
+                }
+            }
+
             result = condition.equalsIgnoreCase("and") ? result.and(predicate) : result.or(predicate);
         }
         return result;
