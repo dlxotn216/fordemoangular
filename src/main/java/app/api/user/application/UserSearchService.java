@@ -2,6 +2,7 @@ package app.api.user.application;
 
 import app.api.user.domain.repository.UserRepository;
 import app.api.user.interfaces.dto.UserDto;
+import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -23,8 +24,8 @@ public class UserSearchService {
         this.userRepository = userRepository;
     }
 
-    public Page<UserDto.UserSearchResponse> searchUsers(Pageable pageable) {
-        return this.userRepository.findAll(pageable)
+    public Page<UserDto.UserSearchResponse> searchUsers(Predicate predicate, Pageable pageable) {
+        return this.userRepository.findAll(predicate, pageable)
                 .map(UserDto::asSearchResponse);
     }
 
